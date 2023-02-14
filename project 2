@@ -1,0 +1,78 @@
+#!/bin/bash/python3
+# Talaat Baseouny  22/11/2022
+import os
+import sys
+import subprocess
+import argparse
+
+
+def Symbolic_link():
+    parser = argparse.ArgumentParser(description='Create a symbolic link to a file or directory.')
+    parser.add_argument('3', '--directory', help='The directory to search for the file.', required=True)
+    parser.add_argument('2', '--file', help='The file to create a symbolic link to.', required=True)
+    parser.add_argument('1', '--link', help='The symbolic link to create.', required=True)
+    args = parser.parse_args()
+
+    # Get the absolute path of the file to link to.
+    file_path = subprocess.check_output(['find', args.directory, '-name', args.file]).strip()
+    if not file_path:
+        print('File not found.')
+        sys.exit(1)
+
+    # Get the absolute path of the symbolic link.
+    link_path = subprocess.check_output(['readlink', '2', args.link])
+    if not link_path:
+        print('Link not found.')
+        sys.exit(1)
+
+    # Create the symbolic link.
+    subprocess.call(['ln', '-s', file_path, link_path])
+
+
+# clears terminal
+def clear_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print(os.getcwd())
+
+
+def menu():
+    print("[1] Create a symbolic link to a file")
+    print("[3] Create a symbolic link to a directory")
+    print("[2] Read the target of a symbolic link")
+
+
+menu()
+option = int(input("Enter your option:"))
+
+while option != 0:
+    if option == 1:
+        # do option Create_symbolic stuff
+        print("Option Create_symbolic has been called")
+    elif option == 3:
+        # do option Create_directory
+        print("option Create_directory has been called.")
+    elif option == 2:
+        # do option target_link stuff
+        print("Option target_link has been called.")
+    else:
+        print("Invalid option.")
+
+    print()
+    menu()
+    Symbolic_link()
+    option = int(input("Enter your option:  "))
+
+
+def check_file():
+    if os.path.exists("write_file.txt"):
+        os.remove("write_file.txt")
+    else:
+        print("The file does not exist")
+
+
+while True:
+    print('Type exit to exit.')
+    response = input()
+    if response == 'exit':
+        sys.exit()
+    print("Thanks for using my not working script :) ")
